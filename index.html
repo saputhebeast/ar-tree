@@ -26,11 +26,10 @@
     <a-marker preset="hiro">
       <a-entity
         id="treeModel"
-        obj-model="obj: models/tree.obj"
-        material="src: models/texture.png"
-        position="0 0 0"
+        gltf-model="models/tree.glb"
+        scale="1.5 1.5 1.5"
         rotation="0 0 0"
-        scale="1.5 1.5 1.5">
+        position="0 0 0">
         <a-sound id="parkSound" src="url(sounds/park-sound.mp3)" autoplay="false" loop="true"></a-sound>
       </a-entity>
     </a-marker>
@@ -71,14 +70,16 @@
     // Toggle rotation animation
     document.getElementById('rotateBtn').addEventListener('click', () => {
       if (!spinning) {
-        spinAnim = document.createElement('a-animation');
-        spinAnim.setAttribute('attribute', 'rotation');
-        spinAnim.setAttribute('to', '0 360 0');
-        spinAnim.setAttribute('dur', '10000');
-        spinAnim.setAttribute('repeat', 'indefinite');
-        tree.appendChild(spinAnim);
-      } else if (spinAnim) {
-        tree.removeChild(spinAnim);
+        // Use A-Frame animation component for GLB
+        tree.setAttribute('animation', {
+          property: "rotation",
+          to: "0 360 0",
+          loop: true,
+          dur: 10000,
+          easing: "linear"
+        });
+      } else {
+        tree.removeAttribute('animation');
         tree.setAttribute('rotation', '0 0 0');
       }
       spinning = !spinning;
